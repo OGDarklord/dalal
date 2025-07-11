@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embed Builder - Modern Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Authentication Modal -->
+<div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <div class="auth-container">
+            <h2>Welcome to Embed Builder</h2>
+            <p style="color: #888; margin-bottom: 2rem;">Please sign in to continue</p>
+            <button id="discord-login-btn" class="btn discord-btn">
+                <svg class="discord-logo" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20.22,4.22A2,2,0,0,0,18.33,3H5.67A2,2,0,0,0,3.78,4.22L3,18.22A2,2,0,0,0,5,20.22H18.22a2,2,0,0,0,2-2V4.22ZM8.67,15.67a1.67,1.67,0,0,1-1.67-1.67V10a1.67,1.67,0,0,1,3.34,0v4A1.67,1.67,0,0,1,8.67,15.67Zm6.66,0a1.67,1.67,0,0,1-1.67-1.67V10a1.67,1.67,0,0,1,3.34,0v4A1.67,1.67,0,0,1,15.33,15.67Z"></path></svg>
+                Sign in with Discord
+            </button>
+        </div>
+    </div>
+</div>
+
+    <div class="app-container">
+        <div class="top-bar">
+            <div class="server-switcher">
+                <button id="server-switcher-btn" class="server-switcher-btn">
+                    </button>
+                <div id="server-switcher-dropdown" class="server-switcher-dropdown">
+                    </div>
+            </div>
+            <div class="user-profile">
+                <img id="user-avatar-dashboard" class="user-avatar" />
+                <span id="user-username-dashboard"></span>
+            </div>
+        </div>
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>Embed Builder</h2>
+                <div class="user-info" id="user-info">
+                    <span id="username-display">Guest User</span>
+                    <button id="logout-btn" class="btn btn-small">Logout</button>
+                </div>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" data-section="dashboard" class="nav-link active">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">Dashboard</span>
+                </a></li>
+                <li><a href="#" data-section="embed-builder" class="nav-link">
+                    <span class="nav-icon">📝</span>
+                    <span class="nav-text">Embed Builder</span>
+                </a></li>
+                <li><a href="#" data-section="templates" class="nav-link">
+                    <span class="nav-icon">🎨</span>
+                    <span class="nav-text">Templates</span>
+                </a></li>
+                <li><a href="#" data-section="subscriptions" class="nav-link">
+                    <span class="nav-icon">💳</span>
+                    <span class="nav-text">Subscriptions</span>
+                </a></li>
+                <li><a href="#" data-section="support" class="nav-link">
+                    <span class="nav-icon">🎫</span>
+                    <span class="nav-text">Support</span>
+                </a></li>
+                <li><a href="#" data-section="ranks" class="nav-link">
+                    <span class="nav-icon">🏆</span>
+                    <span class="nav-text">Ranks</span>
+                </a></li>
+                <li><a href="#" data-section="admin" class="nav-link">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Admin</span>
+                </a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <header class="section-header">
+                    <h1>Dashboard</h1>
+                    <p>Welcome to your embed builder dashboard</p>
+                </header>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <h3>Total Embeds</h3>
+                            <p class="stat-number" id="total-embeds">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-content">
+                            <h3>Active Users</h3>
+                            <p class="stat-number">1,247</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-content">
+                            <h3>Templates Used</h3>
+                            <p class="stat-number">89</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-content">
+                            <h3>Premium Users</h3>
+                            <p class="stat-number">234</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Embed Builder Section -->
+            <section id="embed-builder" class="content-section">
+                <header class="section-header">
+                    <h1>Embed Builder</h1>
+                    <p>Create and manage your Discord embeds</p>
+                </header>
+                
+                <!-- Embed List View -->
+                <div id="embed-list-view" class="embed-list-container">
+                    <div class="embed-list-header">
+                        <h2>Your Embeds</h2>
+                        <button class="btn btn-primary" id="create-new-embed">
+                            <span class="btn-icon">➕</span>
+                            Create New
+                        </button>
+                    </div>
+                    
+                    <div id="embed-cards-container" class="embed-cards">
+                        <!-- Embed cards will be populated here -->
+                    </div>
+                    
+                    <div id="no-embeds-message" class="no-embeds">
+                        <div class="no-embeds-icon">📝</div>
+                        <h3>You haven't created any embeds yet.</h3>
+                        <p>Get started by creating your first embed!</p>
+                        <button class="btn btn-primary" id="create-first-embed">Create New Embed</button>
+                    </div>
+                </div>
+                
+                <!-- Embed Builder View -->
+                <div id="embed-builder-view" class="embed-builder-container" style="display: none;">
+                    <div class="builder-header">
+                        <button class="btn btn-secondary" id="back-to-list">
+                            <span class="btn-icon">←</span>
+                            Back to List
+                        </button>
+                        <h2 id="builder-title">Create New Embed</h2>
+                        <button class="btn btn-primary" id="save-embed">
+                            <span class="btn-icon">💾</span>
+                            Save Embed
+                        </button>
+                    </div>
+                    
+                    <div class="builder-content">
+                        <!-- Live Preview -->
+                        <div class="embed-preview-panel">
+                            <h3>Live Preview</h3>
+                            <div class="discord-embed-preview">
+                                <div class="embed-card" id="live-embed-preview">
+                                    <div class="embed-color-bar" id="preview-color-bar"></div>
+                                    <div class="embed-content">
+                                        <div class="embed-author" id="preview-author" style="display: none;">
+                                            <img id="preview-author-icon" src="" alt="">
+                                            <span id="preview-author-name"></span>
+                                        </div>
+                                        <h4 class="embed-title" id="preview-title">Sample Title</h4>
+                                        <p class="embed-description" id="preview-description">Sample description text</p>
+                                        <div class="embed-fields" id="preview-fields"></div>
+                                        <div class="embed-thumbnail" id="preview-thumbnail" style="display: none;"></div>
+                                        <div class="embed-image" id="preview-image" style="display: none;"></div>
+                                        <div class="embed-footer" id="preview-footer" style="display: none;">
+                                            <img id="preview-footer-icon" src="" alt="">
+                                            <span id="preview-footer-text"></span>
+                                            <span id="preview-timestamp"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Builder Form -->
+                        <div class="embed-form-panel">
+                            <form id="embed-form" class="embed-form">
+                                <div class="form-section">
+                                    <h4>Basic Information</h4>
+                                    <div class="form-group">
+                                        <label for="embed-title">Title</label>
+                                        <input type="text" id="embed-title" placeholder="Enter embed title" maxlength="256">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="embed-description">Description</label>
+                                        <textarea id="embed-description" placeholder="Enter description" maxlength="4096"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="embed-color">Color</label>
+                                        <input type="color" id="embed-color" value="#3b82f6">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="embed-url">URL</label>
+                                        <input type="url" id="embed-url" placeholder="https://example.com">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <h4>Author</h4>
+                                    <div class="form-group">
+                                        <label for="embed-author-name">Author Name</label>
+                                        <input type="text" id="embed-author-name" placeholder="Author name" maxlength="256">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="embed-author-icon">Author Icon URL</label>
+                                        <input type="url" id="embed-author-icon" placeholder="https://example.com/icon.png">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="embed-author-url">Author URL</label>
+                                        <input type="url" id="embed-author-url" placeholder="https://example.com">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <h4>Images</h4>
+                                    <div class="form-group">
+                                        <label for="embed-thumbnail">Thumbnail URL</label>
+                                        <input type="url" id="embed-thumbnail" placeholder="https://example.com/thumbnail.jpg">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="embed-image">Image URL</label>
+                                        <input type="url" id="embed-image" placeholder="https://example.com/image.jpg">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <h4>Footer</h4>
+                                    <div class="form-group">
+                                        <label for="embed-footer-text">Footer Text</label>
+                                        <input type="text" id="embed-footer-text" placeholder="Footer text" maxlength="2048">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="embed-footer-icon">Footer Icon URL</label>
+                                        <input type="url" id="embed-footer-icon" placeholder="https://example.com/footer-icon.png">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            <input type="checkbox" id="embed-timestamp"> Include Timestamp
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Templates Section -->
+            <section id="templates" class="content-section">
+                <header class="section-header">
+                    <h1>Community Templates</h1>
+                    <p>Browse and use community-created templates</p>
+                </header>
+                <div class="templates-controls">
+                    <input type="text" id="template-search" placeholder="Search templates..." class="search-input">
+                    <select id="template-category" class="select-input">
+                        <option value="all">All Categories</option>
+                        <option value="announcement">Announcements</option>
+                        <option value="welcome">Welcome</option>
+                        <option value="social">Social Media</option>
+                        <option value="business">Business</option>
+                    </select>
+                </div>
+                <div class="templates-grid">
+                    <div class="template-card">
+                        <div class="template-preview">
+                            <div class="template-embed-preview">
+                                <div class="template-color-bar" style="background: #10b981;"></div>
+                                <div class="template-content">
+                                    <h4>Welcome Message</h4>
+                                    <p>Welcome to our community!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <h3>Welcome Template</h3>
+                            <p>Perfect for greeting new members</p>
+                            <div class="template-stats">
+                                <span>⭐ 4.8</span>
+                                <span>📥 234 uses</span>
+                            </div>
+                            <button class="btn btn-secondary">Use Template</button>
+                        </div>
+                    </div>
+                    <div class="template-card">
+                        <div class="template-preview">
+                            <div class="template-embed-preview">
+                                <div class="template-color-bar" style="background: #f59e0b;"></div>
+                                <div class="template-content">
+                                    <h4>Announcement</h4>
+                                    <p>Important server updates</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <h3>Announcement Template</h3>
+                            <p>Great for important updates</p>
+                            <div class="template-stats">
+                                <span>⭐ 4.6</span>
+                                <span>📥 156 uses</span>
+                            </div>
+                            <button class="btn btn-secondary">Use Template</button>
+                        </div>
+                    </div>
+                    <div class="template-card">
+                        <div class="template-preview">
+                            <div class="template-embed-preview">
+                                <div class="template-color-bar" style="background: #8b5cf6;"></div>
+                                <div class="template-content">
+                                    <h4>Event Invitation</h4>
+                                    <p>Join us for our special event</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="template-info">
+                            <h3>Event Template</h3>
+                            <p>Perfect for event announcements</p>
+                            <div class="template-stats">
+                                <span>⭐ 4.9</span>
+                                <span>📥 89 uses</span>
+                            </div>
+                            <button class="btn btn-secondary">Use Template</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Subscriptions Section -->
+            <section id="subscriptions" class="content-section">
+                <header class="section-header">
+                    <h1>Subscription System</h1>
+                    <p>Manage subscription messages and settings</p>
+                </header>
+                <div class="subscription-container">
+                    <div class="subscription-settings">
+                        <div class="settings-card">
+                            <h3>Welcome Message</h3>
+                            <div class="form-group">
+                                <label for="welcome-title">Title</label>
+                                <input type="text" id="welcome-title" placeholder="Welcome to Premium!">
+                            </div>
+                            <div class="form-group">
+                                <label for="welcome-message">Message</label>
+                                <textarea id="welcome-message" placeholder="Thank you for subscribing..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="welcome-color">Color</label>
+                                <input type="color" id="welcome-color" value="#10b981">
+                            </div>
+                            <button class="btn btn-primary">Save Welcome Message</button>
+                        </div>
+                        <div class="settings-card">
+                            <h3>Cancellation Message</h3>
+                            <div class="form-group">
+                                <label for="cancel-title">Title</label>
+                                <input type="text" id="cancel-title" placeholder="Sorry to see you go">
+                            </div>
+                            <div class="form-group">
+                                <label for="cancel-message">Message</label>
+                                <textarea id="cancel-message" placeholder="We're sorry to see you cancel..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="cancel-color">Color</label>
+                                <input type="color" id="cancel-color" value="#ef4444">
+                            </div>
+                            <button class="btn btn-primary">Save Cancellation Message</button>
+                        </div>
+                    </div>
+                    <div class="subscription-plans">
+                        <h3>Subscription Plans</h3>
+                        <div class="plan-card">
+                            <div class="plan-header">
+                                <h4>Basic Plan</h4>
+                                <p class="plan-price">$9.99/month</p>
+                            </div>
+                            <ul class="plan-features">
+                                <li>✓ 10 Custom Embeds</li>
+                                <li>✓ Basic Templates</li>
+                                <li>✓ Community Support</li>
+                            </ul>
+                            <button class="btn btn-outline">Manage Plan</button>
+                        </div>
+                        <div class="plan-card featured">
+                            <div class="plan-header">
+                                <h4>Premium Plan</h4>
+                                <p class="plan-price">$19.99/month</p>
+                            </div>
+                            <ul class="plan-features">
+                                <li>✓ Unlimited Embeds</li>
+                                <li>✓ Premium Templates</li>
+                                <li>✓ Priority Support</li>
+                                <li>✓ Custom Branding</li>
+                            </ul>
+                            <button class="btn btn-primary">Manage Plan</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Support Section -->
+            <section id="support" class="content-section">
+                <header class="section-header">
+                    <h1>Support Ticket Setup</h1>
+                    <p>Configure support ticket system</p>
+                </header>
+                <div class="support-container">
+                    <div class="ticket-form-builder">
+                        <h3>Ticket Form Builder</h3>
+                        <div class="form-builder">
+                            <div class="field-options">
+                                <button class="btn btn-secondary" onclick="addField('text')">Add Text Field</button>
+                                <button class="btn btn-secondary" onclick="addField('select')">Add Dropdown</button>
+                                <button class="btn btn-secondary" onclick="addField('textarea')">Add Text Area</button>
+                                <button class="btn btn-secondary" onclick="addField('checkbox')">Add Checkbox</button>
+                            </div>
+                            <div class="form-preview" id="form-preview">
+                                <div class="form-field">
+                                    <label>Subject</label>
+                                    <input type="text" placeholder="Enter ticket subject">
+                                </div>
+                                <div class="form-field">
+                                    <label>Priority</label>
+                                    <select>
+                                        <option>Low</option>
+                                        <option>Medium</option>
+                                        <option>High</option>
+                                    </select>
+                                </div>
+                                <div class="form-field">
+                                    <label>Description</label>
+                                    <textarea placeholder="Describe your issue..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="support-settings">
+                        <h3>Support Settings</h3>
+                        <div class="settings-card">
+                            <div class="setting-item">
+                                <label>Auto-reply enabled</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="auto-reply" checked>
+                                    <span class="slider"></span>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>Email notifications</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="email-notifications" checked>
+                                    <span class="slider"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="auto-reply-message">Auto-reply message</label>
+                                <textarea id="auto-reply-message" placeholder="Thank you for contacting support..."></textarea>
+                            </div>
+                            <button class="btn btn-primary">Save Settings</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ranks Section -->
+            <section id="ranks" class="content-section">
+                <header class="section-header">
+                    <h1>Rank Creation</h1>
+                    <p>Create and manage user ranks</p>
+                </header>
+                <div class="ranks-container">
+                    <div class="rank-creator">
+                        <h3>Create New Rank</h3>
+                        <div class="rank-form">
+                            <div class="form-group">
+                                <label for="rank-name">Rank Name</label>
+                                <input type="text" id="rank-name" placeholder="Enter rank name">
+                            </div>
+                            <div class="form-group">
+                                <label for="rank-color">Rank Color</label>
+                                <input type="color" id="rank-color" value="#3b82f6">
+                            </div>
+                            <div class="form-group">
+                                <label for="rank-icon">Rank Icon</label>
+                                <select id="rank-icon">
+                                    <option value="🏆">🏆 Trophy</option>
+                                    <option value="👑">👑 Crown</option>
+                                    <option value="⭐">⭐ Star</option>
+                                    <option value="🎖️">🎖️ Medal</option>
+                                    <option value="💎">💎 Diamond</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="rank-level">Level Requirement</label>
+                                <input type="number" id="rank-level" min="1" placeholder="Required level">
+                            </div>
+                            <div class="form-group">
+                                <label for="rank-permissions">Permissions</label>
+                                <div class="permission-checkboxes">
+                                    <label><input type="checkbox"> Admin Access</label>
+                                    <label><input type="checkbox"> Moderate Chat</label>
+                                    <label><input type="checkbox"> Kick Members</label>
+                                    <label><input type="checkbox"> Ban Members</label>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="createRank()">Create Rank</button>
+                        </div>
+                    </div>
+                    <div class="rank-preview">
+                        <h3>Rank Preview</h3>
+                        <div class="rank-card-preview" id="rank-preview">
+                            <div class="rank-icon">🏆</div>
+                            <div class="rank-info">
+                                <h4 class="rank-name">Sample Rank</h4>
+                                <p class="rank-level">Level 10</p>
+                            </div>
+                        </div>
+                        <div class="existing-ranks">
+                            <h4>Existing Ranks</h4>
+                            <div class="rank-list">
+                                <div class="rank-item">
+                                    <span class="rank-icon">👑</span>
+                                    <span class="rank-name">Administrator</span>
+                                    <span class="rank-level">Lv. 100</span>
+                                    <button class="btn btn-small">Edit</button>
+                                </div>
+                                <div class="rank-item">
+                                    <span class="rank-icon">🎖️</span>
+                                    <span class="rank-name">Moderator</span>
+                                    <span class="rank-level">Lv. 50</span>
+                                    <button class="btn btn-small">Edit</button>
+                                </div>
+                                <div class="rank-item">
+                                    <span class="rank-icon">⭐</span>
+                                    <span class="rank-name">Member</span>
+                                    <span class="rank-level">Lv. 1</span>
+                                    <button class="btn btn-small">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Section -->
+            <section id="admin" class="content-section">
+                <header class="section-header">
+                    <h1>Admin Panel</h1>
+                    <p>Manage all system features and settings</p>
+                </header>
+                <div class="admin-container">
+                    <div class="admin-controls">
+                        <h3>Feature Controls</h3>
+                        <div class="control-grid">
+                            <div class="control-card">
+                                <h4>Embed Creator</h4>
+                                <div class="control-setting">
+                                    <label>Enable Feature</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="embed-enabled" checked>
+                                        <span class="slider"></span>
+                                    </div>
+                                </div>
+                                <div class="control-setting">
+                                    <label>Max Embeds per User</label>
+                                    <input type="number" value="10" min="1">
+                                </div>
+                            </div>
+                            <div class="control-card">
+                                <h4>Templates</h4>
+                                <div class="control-setting">
+                                    <label>Enable Community Templates</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="templates-enabled" checked>
+                                        <span class="slider"></span>
+                                    </div>
+                                </div>
+                                <div class="control-setting">
+                                    <label>Allow Template Uploads</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="template-uploads" checked>
+                                        <span class="slider"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-card">
+                                <h4>Subscriptions</h4>
+                                <div class="control-setting">
+                                    <label>Enable Subscriptions</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="subscriptions-enabled" checked>
+                                        <span class="slider"></span>
+                                    </div>
+                                </div>
+                                <div class="control-setting">
+                                    <label>Trial Period (days)</label>
+                                    <input type="number" value="7" min="0">
+                                </div>
+                            </div>
+                            <div class="control-card">
+                                <h4>Support System</h4>
+                                <div class="control-setting">
+                                    <label>Enable Support Tickets</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="support-enabled" checked>
+                                        <span class="slider"></span>
+                                    </div>
+                                </div>
+                                <div class="control-setting">
+                                    <label>Auto-assign Tickets</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="auto-assign">
+                                        <span class="slider"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="admin-stats">
+                        <h3>System Statistics</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <h4>Total Users</h4>
+                                <p class="stat-value">2,847</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>Active Subscriptions</h4>
+                                <p class="stat-value">1,234</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>Open Tickets</h4>
+                                <p class="stat-value">23</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>Template Downloads</h4>
+                                <p class="stat-value">5,678</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

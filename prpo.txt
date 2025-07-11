@@ -1,0 +1,74 @@
+
+
+### 🔧 **Prompt for Reworking `dashboard.html`**
+
+**Tech Stack Restriction:**
+Only use **HTML**, **CSS**, and **JavaScript**. No other file types or frameworks (e.g., React, PHP, JSX, etc.) are allowed.
+
+**Provided Files:**
+I have shared the complete project files, including `index.html` and `servers.html`.
+You need to **rework only the `dashboard.html`** page. The rest of the site logic should remain untouched.
+
+---
+
+### ✅ **Required Changes in `dashboard.html`:**
+
+#### 1. **Sidebar Redesign**
+
+* Remove the **profile picture, username, and logout button** from the sidebar.
+* Replace it with the **website logo**, matching the style used in `index.html`.
+
+#### 2. **Embed Builder > Embed Editor**
+
+* Rename "Embed Builder" to **"Embed Editor"**.
+* In the **preview section**:
+
+  * Remove the **top color bar** from the embed (keep only the left color bar like in Discord).
+  * Fix the issue of two separate embed boxes; merge them into one clean preview.
+  * Move the **thumbnail** to the **top right** of the embed and keep it **fixed**.
+  * Ensure the **footer always stays at the bottom** and does not appear between the embed.
+
+#### 3. **Preview Toggle**
+
+* Add a **toggle switch** to switch between **Preview mode** and **Code mode**.
+* In Code mode:
+
+  * Show a **JSON representation** of the Discord embed message (standard format).
+  * Include a **"Copy Code"** button.
+
+#### 4. **Embed Structure Flow**
+
+* By default, show a **simple bot message box** only.
+* Below it, add an **"Add Embed"** button.
+
+  * On click, a new **placeholder embed** (styled like the preview) should be added.
+  * If at least one embed exists, **move the "Add Embed" button to below the last embed**.
+* Also include a **"Add Button"** dropdown below the last embed:
+
+  * Provide all Discord button types (e.g., Primary, Link, Success, Danger).
+  * Allow editing of placeholder properties like **label, color, style**, etc.
+  * These buttons must also be included in the JSON output.
+
+#### 5. **Save Function**
+
+* On clicking **Save**, store the entire message (including embeds and buttons) in the database as:
+
+```json
+{
+  embed_id: (random generated ID),
+  content: (JSON message content),
+  public: false,
+  date_created: (timestamp),
+  created_by: (user identifier)
+}
+```
+
+---
+
+### ⚠️ Important Notes
+
+* Do **not** make any major layout or logic changes in:
+
+  * or the rest of the site.
+* Focus only on `dashboard.html` and embed editor logic.
+

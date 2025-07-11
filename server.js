@@ -259,31 +259,245 @@ app.get('/api/guilds/mutual', async (req, res) => {
     }
 });
 
-// --- Embed Routes ---
+// --- Message Routes ---
 
-// Create Embed
-app.post('/api/embeds', async (req, res) => {
-    // ... (rest of your embed routes are fine, no changes needed here)
+// Generate unique 7-character ID
+function generateMessageId() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < 7; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
+// Create Message
+app.post('/api/messages', async (req, res) => {
+    try {
+        const { content, embeds, is_public } = req.body;
+        
+        let messageId;
+        let isUnique = false;
+        
+        while (!isUnique) {
+            messageId = generateMessageId();
+            const existing = await db.collection('messages').findOne({ messageId });
+            if (!existing) isUnique = true;
+        }
+        
+        const message = {
+            messageId,
+            content,
+            embeds: embeds || [],
+            is_public: is_public || false,
+            userId: req.isAuthenticated() ? req.user._id : null,
+            ipAddress: req.isAuthenticated() ? null : getClientIP(req),
+            createdAt: new Date(),
+            updatedAt: new Date()
+        };
+        
+        const result = await db.collection('messages').insertOne(message);
+        
+        res.status(201).json({ 
+            message: 'Message created successfully',
+            messageId,
+            id: result.insertedId 
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
 });
 
-// Get User Embeds
-app.get('/api/embeds', async (req, res) => {
-     // ...
+// Get User Messages
+app.get('/api/messages', async (req, res) => {
+    try {
+        let query = {};
+        if (req.isAuthenticated()) {
+            query.userId = req.user._id;
+        } else {
+            return res.json([]); 
+        }
+        
+        const messages = await db.collection('messages').find(query).toArray();
+        res.json(messages);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
 });
 
-// Get Single Embed
-app.get('/api/embeds/:id', async (req, res) => {
-    // ...
+// Get Single Message
+app.get('/api/messages/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        let message;
+        if (id.length === 7) {
+            message = await db.collection('messages').findOne({ messageId: id });
+        } else {
+            message = await db.collection('messages').findOne({ _id: new ObjectId(id) });
+        }
+        
+        if (!message) {
+            return res.status(404).json({ error: 'Message not found' });
+        }
+        
+        res.json(message);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
 });
 
-// Update Embed
-app.put('/api/embeds/:id', async (req, res) => {
-    // ...
+// Update Message
+app.put('/api/messages/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { content, embeds, is_public } = req.body;
+        
+        const updateData = { 
+            content, 
+            embeds: embeds || [], 
+            is_public: is_public || false, 
+            updatedAt: new Date() 
+        };
+        
+        let result;
+        if (id.length === 7) {
+            result = await db.collection('messages').updateOne({ messageId: id }, { $set: updateData });
+        } else {
+            result = await db.collection('messages').updateOne({ _id: new ObjectId(id) }, { $set: updateData });
+        }
+        
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ error: 'Message not found' });
+        }
+        
+        res.json({ message: 'Message updated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
 });
 
-// Delete Embed
-app.delete('/api/embeds/:id', async (req, res) => {
-    // ...
+// Delete Message
+app.delete('/api/messages/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        let result;
+        if (id.length === 7) {
+            result = await db.collection('messages').deleteOne({ messageId: id });
+        } else {
+            result = await db.collection('messages').deleteOne({ _id: new ObjectId(id) });
+        }
+        
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: 'Message not found' });
+        }
+        
+        res.json({ message: 'Message deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Make Message Public
+app.put('/api/messages/:id/public', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, category, tags, keywords, is_public } = req.body;
+        
+        const updateData = {
+            title,
+            category,
+            tags: tags || [],
+            keywords: keywords || [],
+            is_public: is_public || true,
+            updatedAt: new Date()
+        };
+        
+        let result;
+        if (id.length === 7) {
+            result = await db.collection('messages').updateOne({ messageId: id }, { $set: updateData });
+        } else {
+            result = await db.collection('messages').updateOne({ _id: new ObjectId(id) }, { $set: updateData });
+        }
+        
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ error: 'Message not found' });
+        }
+        
+        res.json({ message: 'Message made public successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Get Public Messages
+app.get('/api/messages/public', async (req, res) => {
+    try {
+        const messages = await db.collection('messages')
+            .find({ is_public: true })
+            .sort({ createdAt: -1 })
+            .limit(50)
+            .toArray();
+            
+        // Add author information
+        const messagesWithAuthors = await Promise.all(messages.map(async (message) => {
+            if (message.userId) {
+                const author = await db.collection('users').findOne({ _id: message.userId });
+                return { ...message, author: { username: author?.username || 'Anonymous' } };
+            }
+            return { ...message, author: { username: 'Anonymous' } };
+        }));
+        
+        res.json(messagesWithAuthors);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// Search Public Messages
+app.get('/api/messages/public/search', async (req, res) => {
+    try {
+        const { search, category, tags } = req.query;
+        
+        let query = { is_public: true };
+        
+        if (search) {
+            query.$or = [
+                { title: { $regex: search, $options: 'i' } },
+                { content: { $regex: search, $options: 'i' } },
+                { keywords: { $in: [new RegExp(search, 'i')] } }
+            ];
+        }
+        
+        if (category) {
+            query.category = category;
+        }
+        
+        if (tags) {
+            const tagArray = tags.split(',');
+            query.tags = { $in: tagArray };
+        }
+        
+        const messages = await db.collection('messages')
+            .find(query)
+            .sort({ createdAt: -1 })
+            .limit(50)
+            .toArray();
+            
+        // Add author information
+        const messagesWithAuthors = await Promise.all(messages.map(async (message) => {
+            if (message.userId) {
+                const author = await db.collection('users').findOne({ _id: message.userId });
+                return { ...message, author: { username: author?.username || 'Anonymous' } };
+            }
+            return { ...message, author: { username: 'Anonymous' } };
+        }));
+        
+        res.json(messagesWithAuthors);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
 });
 
 

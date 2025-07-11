@@ -190,6 +190,23 @@ app.get('/api/rating/check/:discordId', async (req, res) => {
 
 // --- Guild (Server) Routes ---
 app.get('/api/guilds/mutual', async (req, res) => {
+    // Test mode bypass
+    if (process.env.TEST_MODE === 'true') {
+        const testGuilds = [
+            {
+                id: '123456789',
+                name: 'Test Server',
+                icon: null,
+                banner: null,
+                description: 'A test server for development',
+                approximate_member_count: 100,
+                approximate_presence_count: 50,
+                permissions: '8'
+            }
+        ];
+        return res.json(testGuilds);
+    }
+    
     if (!req.isAuthenticated()) {
         return res.status(401).json({ error: 'Not authenticated' });
     }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Message Builder - Modern Dashboard</title>
+    <title>Message Builder - Dashboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,9 +14,71 @@
                 <h2>Welcome to Message Builder</h2>
                 <p style="color: #888; margin-bottom: 2rem;">Please sign in to continue</p>
                 <button id="discord-login-btn" class="btn discord-btn">
-                    <svg class="discord-logo" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20.22,4.22A2,2,0,0,0,18.33,3H5.67A2,2,0,0,0,3.78,4.22L3,18.22A2,2,0,0,0,5,20.22H18.22a2,2,0,0,0,2-2V4.22ZM8.67,15.67a1.67,1.67,0,0,1-1.67-1.67V10a1.67,1.67,0,0,1,3.34,0v4A1.67,1.67,0,0,1,8.67,15.67Zm6.66,0a1.67,1.67,0,0,1-1.67-1.67V10a1.67,1.67,0,0,1,3.34,0v4A1.67,1.67,0,0,1,15.33,15.67Z"></path></svg>
+                    <svg class="discord-logo" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                    </svg>
                     Sign in with Discord
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Type Selection Modal -->
+    <div id="message-type-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Select Message Type</h3>
+                <button class="modal-close" id="close-type-modal">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="message-type-grid">
+                    <div class="message-type-card" data-type="welcome">
+                        <svg class="type-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <h4>Welcome Message</h4>
+                        <p>Greet new members joining your server</p>
+                    </div>
+                    <div class="message-type-card" data-type="leave">
+                        <svg class="type-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 3v2H7v14h2v2H5V3h4zm6 0h4v18h-4v-2h2V5h-2V3zm-4 6l4 3-4 3V9z"/>
+                        </svg>
+                        <h4>Leave Message</h4>
+                        <p>Say goodbye when members leave</p>
+                    </div>
+                    <div class="message-type-card" data-type="ban">
+                        <svg class="type-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z"/>
+                        </svg>
+                        <h4>Ban Message</h4>
+                        <p>Notification for banned members</p>
+                    </div>
+                    <div class="message-type-card" data-type="announcement">
+                        <svg class="type-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        <h4>Announcement</h4>
+                        <p>Important server announcements</p>
+                    </div>
+                    <div class="message-type-card" data-type="ticket">
+                        <svg class="type-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 12c0-1.1.9-2 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v4c1.1 0 2 .9 2 2s-.9 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2z"/>
+                        </svg>
+                        <h4>Ticket Template</h4>
+                        <p>Support ticket messages</p>
+                    </div>
+                    <div class="message-type-card" data-type="other">
+                        <svg class="type-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                        </svg>
+                        <h4>Other</h4>
+                        <p>Custom message type</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -42,7 +104,7 @@
                     <svg class="logo-icon" viewBox="0 0 24 24">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
-                    <span>Message Builder</span>
+                    <span>EmbedBot</span>
                 </a>
             </div>
             <ul class="nav-menu">
@@ -64,24 +126,6 @@
                     </svg>
                     <span class="nav-text">Community</span>
                 </a></li>
-                <li><a href="#" data-section="subscriptions" class="nav-link">
-                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
-                    </svg>
-                    <span class="nav-text">Subscriptions</span>
-                </a></li>
-                <li><a href="#" data-section="support" class="nav-link">
-                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20 12c0-1.1.9-2 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v4c1.1 0 2 .9 2 2s-.9 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2z"/>
-                    </svg>
-                    <span class="nav-text">Support</span>
-                </a></li>
-                <li><a href="#" data-section="ranks" class="nav-link">
-                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                    <span class="nav-text">Ranks</span>
-                </a></li>
             </ul>
         </nav>
 
@@ -91,35 +135,97 @@
             <section id="dashboard" class="content-section active">
                 <header class="section-header">
                     <h1>Dashboard</h1>
-                    <p>Welcome to your message builder dashboard</p>
+                    <p>Welcome to your server dashboard</p>
                 </header>
                 <div class="dashboard-grid">
                     <div class="stat-card">
-                        <div class="stat-icon">📊</div>
+                        <svg class="stat-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                        </svg>
                         <div class="stat-content">
                             <h3>Total Messages</h3>
                             <p class="stat-number" id="total-messages">0</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">🌍</div>
+                        <svg class="stat-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                        </svg>
                         <div class="stat-content">
                             <h3>Public Messages</h3>
                             <p class="stat-number" id="public-messages">0</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">👥</div>
+                        <svg class="stat-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H16c-.8 0-1.54.37-2.01 1l-2.99 4v7h2v7h4zm-7.5-10.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S11 9.17 11 10s.67 1.5 1.5 1.5zM5.5 6c1.11 0 2-.89 2-2s-.89-2-2-2-2 .89-2 2 .89 2 2 2zm2 16v-7H9V9.5l-3.54-3.54c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0L9.5 7.17c.39.39.39 1.02 0 1.41L7.5 10.59V15H10v7H7.5z"/>
+                        </svg>
                         <div class="stat-content">
                             <h3>Active Users</h3>
                             <p class="stat-number">1,247</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">💰</div>
+                        <svg class="stat-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
                         <div class="stat-content">
                             <h3>Premium Users</h3>
                             <p class="stat-number">234</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Server Message Cards -->
+                <div class="server-messages-section">
+                    <h2>Server Messages</h2>
+                    <div class="server-message-cards">
+                        <div class="server-message-card" id="welcome-card" data-type="welcome">
+                            <div class="card-content">
+                                <svg class="card-icon" width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                <h3>Welcome Message</h3>
+                                <p>Set up welcome messages for new members</p>
+                                <button class="btn btn-primary setup-message-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                    </svg>
+                                    Setup Message
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="server-message-card" id="leave-card" data-type="leave">
+                            <div class="card-content">
+                                <svg class="card-icon" width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 3v2H7v14h2v2H5V3h4zm6 0h4v18h-4v-2h2V5h-2V3zm-4 6l4 3-4 3V9z"/>
+                                </svg>
+                                <h3>Leave Message</h3>
+                                <p>Set up goodbye messages for leaving members</p>
+                                <button class="btn btn-primary setup-message-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                    </svg>
+                                    Setup Message
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="server-message-card" id="ban-card" data-type="ban">
+                            <div class="card-content">
+                                <svg class="card-icon" width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z"/>
+                                </svg>
+                                <h3>Ban Message</h3>
+                                <p>Set up ban notification messages</p>
+                                <button class="btn btn-primary setup-message-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                    </svg>
+                                    Setup Message
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -137,7 +243,9 @@
                     <div class="message-list-header">
                         <h2>Your Messages</h2>
                         <button class="btn btn-primary" id="create-new-message">
-                            <span class="btn-icon">➕</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                            </svg>
                             Create New
                         </button>
                     </div>
@@ -147,7 +255,9 @@
                     </div>
                     
                     <div id="no-messages-message" class="no-messages">
-                        <div class="no-messages-icon">📝</div>
+                        <svg class="no-messages-icon" width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                        </svg>
                         <h3>You haven't created any messages yet.</h3>
                         <p>Get started by creating your first message!</p>
                         <button class="btn btn-primary" id="create-first-message">Create New Message</button>
@@ -158,7 +268,9 @@
                 <div id="message-builder-view" class="message-builder-container" style="display: none;">
                     <div class="builder-header">
                         <button class="btn btn-secondary" id="back-to-list">
-                            <span class="btn-icon">←</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                            </svg>
                             Back to List
                         </button>
                         <h2 id="builder-title">Create New Message</h2>
@@ -168,7 +280,9 @@
                                 <button class="toggle-btn" data-view="json">JSON</button>
                             </div>
                             <button class="btn btn-primary" id="save-message">
-                                <span class="btn-icon">💾</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                                </svg>
                                 Save Message
                             </button>
                         </div>
@@ -179,6 +293,14 @@
                         <div id="gui-view" class="gui-view">
                             <!-- Message Editor Panel -->
                             <div class="message-editor-panel">
+                                <!-- Placeholders Section -->
+                                <div id="placeholders-section" class="placeholders-section">
+                                    <h3>Available Placeholders</h3>
+                                    <div class="placeholders-grid" id="placeholders-grid">
+                                        <!-- Placeholders will be populated based on message type -->
+                                    </div>
+                                </div>
+
                                 <div class="message-content-section">
                                     <h3>Message Content</h3>
                                     <textarea id="message-content" placeholder="Type your message here..." maxlength="2000"></textarea>
@@ -188,7 +310,9 @@
                                     <div class="embeds-header">
                                         <h3>Embeds</h3>
                                         <button class="btn btn-secondary" id="add-embed-btn">
-                                            <span class="btn-icon">➕</span>
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                            </svg>
                                             Add Embed
                                         </button>
                                     </div>
@@ -224,11 +348,19 @@
                                 <div class="json-header">
                                     <h3>JSON Editor</h3>
                                     <button class="btn btn-secondary" id="copy-json">
-                                        <span class="btn-icon">📋</span>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                        </svg>
                                         Copy JSON
                                     </button>
                                 </div>
                                 <textarea id="json-content" class="json-textarea" placeholder="JSON will appear here..."></textarea>
+                                <div id="json-error" class="json-error" style="display: none;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                    Invalid JSON format
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -243,33 +375,55 @@
                 </header>
                 
                 <div class="community-controls">
-                    <input type="text" id="community-search" placeholder="Search messages..." class="search-input">
-                    <select id="community-category" class="select-input">
-                        <option value="">All Categories</option>
-                        <option value="welcome">Welcome Messages</option>
-                        <option value="leave">Leave Messages</option>
-                        <option value="tickets">Ticket Templates</option>
-                        <option value="announcement">Announcements</option>
-                        <option value="logs">Log Templates</option>
-                        <option value="moderation">Moderation</option>
-                        <option value="fun">Fun & Games</option>
-                        <option value="other">Other</option>
-                    </select>
-                    <div class="tags-filter">
-                        <select id="community-tags" class="select-input" multiple>
-                            <option value="english">English</option>
-                            <option value="hindi">Hindi</option>
-                            <option value="spanish">Spanish</option>
-                            <option value="french">French</option>
-                            <option value="welcome">Welcome</option>
-                            <option value="dm">DM</option>
-                            <option value="advertisement">Advertisement</option>
-                            <option value="gaming">Gaming</option>
-                            <option value="music">Music</option>
-                            <option value="art">Art</option>
-                        </select>
+                    <div class="search-container">
+                        <input type="text" id="community-search" placeholder="" class="search-input">
+                        <div class="search-animation" id="search-animation"></div>
                     </div>
-                    <button class="btn btn-primary" id="search-community">Search</button>
+                    <div class="filters-container">
+                        <div class="custom-dropdown" id="category-dropdown">
+                            <button class="dropdown-btn">
+                                <span>All Categories</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                                </svg>
+                            </button>
+                            <div class="dropdown-content">
+                                <div class="dropdown-item" data-value="">All Categories</div>
+                                <div class="dropdown-item" data-value="welcome">Welcome Messages</div>
+                                <div class="dropdown-item" data-value="leave">Leave Messages</div>
+                                <div class="dropdown-item" data-value="ban">Ban Messages</div>
+                                <div class="dropdown-item" data-value="announcement">Announcements</div>
+                                <div class="dropdown-item" data-value="ticket">Ticket Templates</div>
+                                <div class="dropdown-item" data-value="other">Other</div>
+                            </div>
+                        </div>
+                        <div class="custom-dropdown" id="language-dropdown">
+                            <button class="dropdown-btn">
+                                <span>All Languages</span>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                                </svg>
+                            </button>
+                            <div class="dropdown-content">
+                                <div class="dropdown-item" data-value="">All Languages</div>
+                                <div class="dropdown-item" data-value="english">English</div>
+                                <div class="dropdown-item" data-value="hindi">Hindi</div>
+                                <div class="dropdown-item" data-value="spanish">Spanish</div>
+                                <div class="dropdown-item" data-value="french">French</div>
+                                <div class="dropdown-item" data-value="german">German</div>
+                                <div class="dropdown-item" data-value="japanese">Japanese</div>
+                                <div class="dropdown-item" data-value="korean">Korean</div>
+                                <div class="dropdown-item" data-value="chinese">Chinese</div>
+                                <div class="dropdown-item" data-value="other">Other</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="search-community">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                        Search
+                    </button>
                 </div>
                 
                 <div id="community-messages" class="community-grid">
@@ -280,273 +434,131 @@
                     <div class="loading"></div>
                     <p>Loading community messages...</p>
                 </div>
-            </section>
 
-            <!-- Subscriptions Section -->
-            <section id="subscriptions" class="content-section">
-                <header class="section-header">
-                    <h1>Subscription System</h1>
-                    <p>Manage subscription messages and settings</p>
-                </header>
-                <div class="subscription-container">
-                    <div class="subscription-settings">
-                        <div class="settings-card">
-                            <h3>Welcome Message</h3>
-                            <div class="form-group">
-                                <label for="welcome-title">Title</label>
-                                <input type="text" id="welcome-title" placeholder="Welcome to Premium!">
-                            </div>
-                            <div class="form-group">
-                                <label for="welcome-message">Message</label>
-                                <textarea id="welcome-message" placeholder="Thank you for subscribing..."></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="welcome-color">Color</label>
-                                <input type="color" id="welcome-color" value="#10b981">
-                            </div>
-                            <button class="btn btn-primary">Save Welcome Message</button>
-                        </div>
-                        <div class="settings-card">
-                            <h3>Cancellation Message</h3>
-                            <div class="form-group">
-                                <label for="cancel-title">Title</label>
-                                <input type="text" id="cancel-title" placeholder="Sorry to see you go">
-                            </div>
-                            <div class="form-group">
-                                <label for="cancel-message">Message</label>
-                                <textarea id="cancel-message" placeholder="We're sorry to see you cancel..."></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="cancel-color">Color</label>
-                                <input type="color" id="cancel-color" value="#ef4444">
-                            </div>
-                            <button class="btn btn-primary">Save Cancellation Message</button>
-                        </div>
-                    </div>
-                    <div class="subscription-plans">
-                        <h3>Subscription Plans</h3>
-                        <div class="plan-card">
-                            <div class="plan-header">
-                                <h4>Basic Plan</h4>
-                                <p class="plan-price">$9.99/month</p>
-                            </div>
-                            <ul class="plan-features">
-                                <li>✓ 10 Custom Messages</li>
-                                <li>✓ Basic Templates</li>
-                                <li>✓ Community Support</li>
-                            </ul>
-                            <button class="btn btn-outline">Manage Plan</button>
-                        </div>
-                        <div class="plan-card featured">
-                            <div class="plan-header">
-                                <h4>Premium Plan</h4>
-                                <p class="plan-price">$19.99/month</p>
-                            </div>
-                            <ul class="plan-features">
-                                <li>✓ Unlimited Messages</li>
-                                <li>✓ Premium Templates</li>
-                                <li>✓ Priority Support</li>
-                                <li>✓ Custom Branding</li>
-                            </ul>
-                            <button class="btn btn-primary">Manage Plan</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Support Section -->
-            <section id="support" class="content-section">
-                <header class="section-header">
-                    <h1>Support Ticket Setup</h1>
-                    <p>Configure support ticket system</p>
-                </header>
-                <div class="support-container">
-                    <div class="ticket-form-builder">
-                        <h3>Ticket Form Builder</h3>
-                        <div class="form-builder">
-                            <div class="field-options">
-                                <button class="btn btn-secondary" onclick="addField('text')">Add Text Field</button>
-                                <button class="btn btn-secondary" onclick="addField('select')">Add Dropdown</button>
-                                <button class="btn btn-secondary" onclick="addField('textarea')">Add Text Area</button>
-                                <button class="btn btn-secondary" onclick="addField('checkbox')">Add Checkbox</button>
-                            </div>
-                            <div class="form-preview" id="form-preview">
-                                <div class="form-field">
-                                    <label>Subject</label>
-                                    <input type="text" placeholder="Enter ticket subject">
-                                </div>
-                                <div class="form-field">
-                                    <label>Priority</label>
-                                    <select>
-                                        <option>Low</option>
-                                        <option>Medium</option>
-                                        <option>High</option>
-                                    </select>
-                                </div>
-                                <div class="form-field">
-                                    <label>Description</label>
-                                    <textarea placeholder="Describe your issue..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="support-settings">
-                        <h3>Support Settings</h3>
-                        <div class="settings-card">
-                            <div class="setting-item">
-                                <label>Auto-reply enabled</label>
-                                <div class="toggle-switch">
-                                    <input type="checkbox" id="auto-reply" checked>
-                                    <span class="slider"></span>
-                                </div>
-                            </div>
-                            <div class="setting-item">
-                                <label>Email notifications</label>
-                                <div class="toggle-switch">
-                                    <input type="checkbox" id="email-notifications" checked>
-                                    <span class="slider"></span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="auto-reply-message">Auto-reply message</label>
-                                <textarea id="auto-reply-message" placeholder="Thank you for contacting support..."></textarea>
-                            </div>
-                            <button class="btn btn-primary">Save Settings</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Ranks Section -->
-            <section id="ranks" class="content-section">
-                <header class="section-header">
-                    <h1>Rank Creation</h1>
-                    <p>Create and manage user ranks</p>
-                </header>
-                <div class="ranks-container">
-                    <div class="rank-creator">
-                        <h3>Create New Rank</h3>
-                        <div class="rank-form">
-                            <div class="form-group">
-                                <label for="rank-name">Rank Name</label>
-                                <input type="text" id="rank-name" placeholder="Enter rank name">
-                            </div>
-                            <div class="form-group">
-                                <label for="rank-color">Rank Color</label>
-                                <input type="color" id="rank-color" value="#3b82f6">
-                            </div>
-                            <div class="form-group">
-                                <label for="rank-icon">Rank Icon</label>
-                                <select id="rank-icon">
-                                    <option value="🏆">🏆 Trophy</option>
-                                    <option value="👑">👑 Crown</option>
-                                    <option value="⭐">⭐ Star</option>
-                                    <option value="🎖️">🎖️ Medal</option>
-                                    <option value="💎">💎 Diamond</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="rank-level">Level Requirement</label>
-                                <input type="number" id="rank-level" min="1" placeholder="Required level">
-                            </div>
-                            <div class="form-group">
-                                <label for="rank-permissions">Permissions</label>
-                                <div class="permission-checkboxes">
-                                    <label><input type="checkbox"> Admin Access</label>
-                                    <label><input type="checkbox"> Moderate Chat</label>
-                                    <label><input type="checkbox"> Kick Members</label>
-                                    <label><input type="checkbox"> Ban Members</label>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary" onclick="createRank()">Create Rank</button>
-                        </div>
-                    </div>
-                    <div class="rank-preview">
-                        <h3>Rank Preview</h3>
-                        <div class="rank-card-preview" id="rank-preview">
-                            <div class="rank-icon">🏆</div>
-                            <div class="rank-info">
-                                <h4 class="rank-name">Sample Rank</h4>
-                                <p class="rank-level">Level 10</p>
-                            </div>
-                        </div>
-                        <div class="existing-ranks">
-                            <h4>Existing Ranks</h4>
-                            <div class="rank-list">
-                                <div class="rank-item">
-                                    <span class="rank-icon">👑</span>
-                                    <span class="rank-name">Administrator</span>
-                                    <span class="rank-level">Lv. 100</span>
-                                    <button class="btn btn-small">Edit</button>
-                                </div>
-                                <div class="rank-item">
-                                    <span class="rank-icon">🎖️</span>
-                                    <span class="rank-name">Moderator</span>
-                                    <span class="rank-level">Lv. 50</span>
-                                    <button class="btn btn-small">Edit</button>
-                                </div>
-                                <div class="rank-item">
-                                    <span class="rank-icon">⭐</span>
-                                    <span class="rank-name">Member</span>
-                                    <span class="rank-level">Lv. 1</span>
-                                    <button class="btn btn-small">Edit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div id="load-more-container" class="load-more-container" style="display: none;">
+                    <button class="btn btn-secondary" id="load-more-btn">Load More Messages</button>
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- Make Public Modal -->
-    <div id="make-public-modal" class="modal" style="display: none;">
+    <!-- Publish Modal -->
+    <div id="publish-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Make Message Public</h3>
-                <button class="modal-close" id="close-public-modal">&times;</button>
+                <h3>Publish Message</h3>
+                <button class="modal-close" id="close-publish-modal">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="public-title">Title</label>
-                    <input type="text" id="public-title" placeholder="Enter a title for your message">
+                    <label for="publish-title">Title</label>
+                    <input type="text" id="publish-title" placeholder="Enter a title for your message">
                 </div>
                 <div class="form-group">
-                    <label for="public-category">Category</label>
-                    <select id="public-category">
-                        <option value="">Select Category</option>
-                        <option value="welcome">Welcome Messages</option>
-                        <option value="leave">Leave Messages</option>
-                        <option value="tickets">Ticket Templates</option>
-                        <option value="announcement">Announcements</option>
-                        <option value="logs">Log Templates</option>
-                        <option value="moderation">Moderation</option>
-                        <option value="fun">Fun & Games</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="public-tags">Tags</label>
-                    <div class="tags-container">
-                        <div class="tag-option"><input type="checkbox" value="english"> English</div>
-                        <div class="tag-option"><input type="checkbox" value="hindi"> Hindi</div>
-                        <div class="tag-option"><input type="checkbox" value="spanish"> Spanish</div>
-                        <div class="tag-option"><input type="checkbox" value="french"> French</div>
-                        <div class="tag-option"><input type="checkbox" value="welcome"> Welcome</div>
-                        <div class="tag-option"><input type="checkbox" value="dm"> DM</div>
-                        <div class="tag-option"><input type="checkbox" value="advertisement"> Advertisement</div>
-                        <div class="tag-option"><input type="checkbox" value="gaming"> Gaming</div>
-                        <div class="tag-option"><input type="checkbox" value="music"> Music</div>
-                        <div class="tag-option"><input type="checkbox" value="art"> Art</div>
+                    <label for="publish-language">Language</label>
+                    <div class="custom-dropdown" id="publish-language-dropdown">
+                        <button class="dropdown-btn">
+                            <span>Select Language</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                            </svg>
+                        </button>
+                        <div class="dropdown-content">
+                            <div class="dropdown-item" data-value="english">English</div>
+                            <div class="dropdown-item" data-value="hindi">Hindi</div>
+                            <div class="dropdown-item" data-value="spanish">Spanish</div>
+                            <div class="dropdown-item" data-value="french">French</div>
+                            <div class="dropdown-item" data-value="german">German</div>
+                            <div class="dropdown-item" data-value="japanese">Japanese</div>
+                            <div class="dropdown-item" data-value="korean">Korean</div>
+                            <div class="dropdown-item" data-value="chinese">Chinese</div>
+                            <div class="dropdown-item" data-value="other">Other</div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="public-keywords">Keywords (for search)</label>
-                    <input type="text" id="public-keywords" placeholder="Enter keywords separated by commas">
+                    <label for="publish-keywords">Keywords (for search purpose)</label>
+                    <input type="text" id="publish-keywords" placeholder="Enter keywords separated by spaces and commas">
+                    <small>Example: welcome, new member, greeting</small>
                 </div>
                 <div class="modal-actions">
-                    <button class="btn btn-secondary" id="cancel-public">Cancel</button>
-                    <button class="btn btn-primary" id="confirm-public">Make Public</button>
+                    <button class="btn btn-secondary" id="cancel-publish">Cancel</button>
+                    <button class="btn btn-primary" id="confirm-publish">Publish</button>
+                    <button class="btn btn-outline" id="make-private" style="display: none;">Make Private</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Preview Modal -->
+    <div id="preview-modal" class="modal" style="display: none;">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h3>Message Preview</h3>
+                <div class="preview-toggle">
+                    <button class="toggle-btn active" data-view="preview">Preview</button>
+                    <button class="toggle-btn" data-view="json">JSON</button>
+                </div>
+                <button class="modal-close" id="close-preview-modal">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-preview-view" class="modal-preview-content">
+                    <div class="discord-preview">
+                        <div class="discord-message">
+                            <div class="message-author">
+                                <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Bot Avatar" class="author-avatar">
+                                <span class="author-name">Discord Bot</span>
+                                <span class="bot-tag">BOT</span>
+                                <span class="timestamp">Today at 12:00</span>
+                            </div>
+                            <div class="message-body">
+                                <div id="modal-preview-content" class="message-text"></div>
+                                <div id="modal-preview-embeds" class="message-embeds"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="modal-json-view" class="modal-json-content" style="display: none;">
+                    <pre id="modal-json-content"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Server Message Setup Modal -->
+    <div id="server-message-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="server-message-title">Setup Welcome Message</h3>
+                <button class="modal-close" id="close-server-message-modal">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" id="channel-input-group">
+                    <label for="channel-id">Channel ID</label>
+                    <input type="text" id="channel-id" placeholder="Enter channel ID (e.g., 123456789012345678)">
+                    <small>Right-click on a channel and select "Copy ID" to get the channel ID</small>
+                </div>
+                <div class="form-group">
+                    <label>Select Message</label>
+                    <div id="server-messages-list" class="server-messages-list">
+                        <!-- Messages will be populated here -->
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancel-server-message">Cancel</button>
+                    <button class="btn btn-primary" id="save-server-message">Save</button>
                 </div>
             </div>
         </div>

@@ -25,7 +25,7 @@
 
     <!-- Message Type Selection Modal -->
     <div id="message-type-modal" class="modal" style="display: none;">
-        <div class="modal-content">
+        <div class="modal-content modal-responsive">
             <div class="modal-header">
                 <h3>Select Message Type</h3>
                 <button class="modal-close" id="close-type-modal">
@@ -144,7 +144,7 @@
                         </svg>
                         <div class="stat-content">
                             <h3>Total Messages</h3>
-                            <p class="stat-number" id="total-messages">0</p>
+                            <p class="stat-number" id="total-messages">1</p>
                         </div>
                     </div>
                     <div class="stat-card">
@@ -153,7 +153,7 @@
                         </svg>
                         <div class="stat-content">
                             <h3>Public Messages</h3>
-                            <p class="stat-number" id="public-messages">0</p>
+                            <p class="stat-number" id="public-messages">1</p>
                         </div>
                     </div>
                     <div class="stat-card">
@@ -176,7 +176,7 @@
                     </div>
                 </div>
 
-                <!-- Server Message Cards -->
+                <!-- Server Messages Section -->
                 <div class="server-messages-section">
                     <h2>Server Messages</h2>
                     <div class="server-message-cards">
@@ -304,6 +304,7 @@
                                 <div class="message-content-section">
                                     <h3>Message Content</h3>
                                     <textarea id="message-content" placeholder="Type your message here..." maxlength="2000"></textarea>
+                                    <div class="char-count">0/2000</div>
                                 </div>
                                 
                                 <div class="embeds-section">
@@ -376,47 +377,31 @@
                 
                 <div class="community-controls">
                     <div class="search-container">
-                        <input type="text" id="community-search" placeholder="" class="search-input">
+                        <input type="text" id="community-search" placeholder="Search messages..." class="search-input">
                         <div class="search-animation" id="search-animation"></div>
                     </div>
                     <div class="filters-container">
-                        <div class="custom-dropdown" id="category-dropdown">
-                            <button class="dropdown-btn">
-                                <span>All Categories</span>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                                </svg>
-                            </button>
-                            <div class="dropdown-content">
-                                <div class="dropdown-item" data-value="">All Categories</div>
-                                <div class="dropdown-item" data-value="welcome">Welcome Messages</div>
-                                <div class="dropdown-item" data-value="leave">Leave Messages</div>
-                                <div class="dropdown-item" data-value="ban">Ban Messages</div>
-                                <div class="dropdown-item" data-value="announcement">Announcements</div>
-                                <div class="dropdown-item" data-value="ticket">Ticket Templates</div>
-                                <div class="dropdown-item" data-value="other">Other</div>
-                            </div>
-                        </div>
-                        <div class="custom-dropdown" id="language-dropdown">
-                            <button class="dropdown-btn">
-                                <span>All Languages</span>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                                </svg>
-                            </button>
-                            <div class="dropdown-content">
-                                <div class="dropdown-item" data-value="">All Languages</div>
-                                <div class="dropdown-item" data-value="english">English</div>
-                                <div class="dropdown-item" data-value="hindi">Hindi</div>
-                                <div class="dropdown-item" data-value="spanish">Spanish</div>
-                                <div class="dropdown-item" data-value="french">French</div>
-                                <div class="dropdown-item" data-value="german">German</div>
-                                <div class="dropdown-item" data-value="japanese">Japanese</div>
-                                <div class="dropdown-item" data-value="korean">Korean</div>
-                                <div class="dropdown-item" data-value="chinese">Chinese</div>
-                                <div class="dropdown-item" data-value="other">Other</div>
-                            </div>
-                        </div>
+                        <select id="category-filter" class="select-input">
+                            <option value="">All Categories</option>
+                            <option value="welcome">Welcome Messages</option>
+                            <option value="leave">Leave Messages</option>
+                            <option value="ban">Ban Messages</option>
+                            <option value="announcement">Announcements</option>
+                            <option value="ticket">Ticket Templates</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <select id="language-filter" class="select-input">
+                            <option value="">All Languages</option>
+                            <option value="english">English</option>
+                            <option value="hindi">Hindi</option>
+                            <option value="spanish">Spanish</option>
+                            <option value="french">French</option>
+                            <option value="german">German</option>
+                            <option value="japanese">Japanese</option>
+                            <option value="korean">Korean</option>
+                            <option value="chinese">Chinese</option>
+                            <option value="other">Other</option>
+                        </select>
                     </div>
                     <button class="btn btn-primary" id="search-community">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -444,7 +429,7 @@
 
     <!-- Publish Modal -->
     <div id="publish-modal" class="modal" style="display: none;">
-        <div class="modal-content">
+        <div class="modal-content modal-responsive">
             <div class="modal-header">
                 <h3>Publish Message</h3>
                 <button class="modal-close" id="close-publish-modal">
@@ -460,25 +445,18 @@
                 </div>
                 <div class="form-group">
                     <label for="publish-language">Language</label>
-                    <div class="custom-dropdown" id="publish-language-dropdown">
-                        <button class="dropdown-btn">
-                            <span>Select Language</span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                            </svg>
-                        </button>
-                        <div class="dropdown-content">
-                            <div class="dropdown-item" data-value="english">English</div>
-                            <div class="dropdown-item" data-value="hindi">Hindi</div>
-                            <div class="dropdown-item" data-value="spanish">Spanish</div>
-                            <div class="dropdown-item" data-value="french">French</div>
-                            <div class="dropdown-item" data-value="german">German</div>
-                            <div class="dropdown-item" data-value="japanese">Japanese</div>
-                            <div class="dropdown-item" data-value="korean">Korean</div>
-                            <div class="dropdown-item" data-value="chinese">Chinese</div>
-                            <div class="dropdown-item" data-value="other">Other</div>
-                        </div>
-                    </div>
+                    <select id="publish-language" class="select-input">
+                        <option value="">Select Language</option>
+                        <option value="english">English</option>
+                        <option value="hindi">Hindi</option>
+                        <option value="spanish">Spanish</option>
+                        <option value="french">French</option>
+                        <option value="german">German</option>
+                        <option value="japanese">Japanese</option>
+                        <option value="korean">Korean</option>
+                        <option value="chinese">Chinese</option>
+                        <option value="other">Other</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="publish-keywords">Keywords (for search purpose)</label>
@@ -496,7 +474,7 @@
 
     <!-- Message Preview Modal -->
     <div id="preview-modal" class="modal" style="display: none;">
-        <div class="modal-content large-modal">
+        <div class="modal-content modal-large modal-responsive">
             <div class="modal-header">
                 <h3>Message Preview</h3>
                 <div class="preview-toggle">
@@ -535,7 +513,7 @@
 
     <!-- Server Message Setup Modal -->
     <div id="server-message-modal" class="modal" style="display: none;">
-        <div class="modal-content">
+        <div class="modal-content modal-responsive">
             <div class="modal-header">
                 <h3 id="server-message-title">Setup Welcome Message</h3>
                 <button class="modal-close" id="close-server-message-modal">

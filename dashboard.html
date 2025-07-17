@@ -80,6 +80,29 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Minecraft Section -->
+            <div class="minecraft-section">
+                <h2>Minecraft Servers</h2>
+                <div id="minecraft-content">
+                    <div id="no-minecraft-setup" class="no-setup-message">
+                        <svg class="no-setup-icon" width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        <h3>No server setup</h3>
+                        <p>Please add a Minecraft server to get started</p>
+                        <button class="btn btn-primary" id="add-minecraft-server">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                            </svg>
+                            Add Server
+                        </button>
+                    </div>
+                    <div id="minecraft-servers" class="minecraft-servers" style="display: none;">
+                        <!-- Minecraft server cards will be populated here -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -539,6 +562,226 @@
                     <button class="btn btn-primary" id="save-server-message">Save</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Minecraft Server Setup Modal -->
+    <div id="minecraft-setup-modal" class="modal" style="display: none;">
+        <div class="modal-content modal-responsive">
+            <div class="modal-header">
+                <h3>Add Minecraft Server</h3>
+                <button class="modal-close" id="close-minecraft-setup">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="minecraft-server-form">
+                    <div class="form-group">
+                        <label for="mc-server-name">Server Name *</label>
+                        <input type="text" id="mc-server-name" required placeholder="Enter server name">
+                    </div>
+                    <div class="form-group">
+                        <label for="mc-description">Description *</label>
+                        <textarea id="mc-description" required placeholder="Enter server description" rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 3;">
+                            <label for="mc-server-ip">Server IP *</label>
+                            <input type="text" id="mc-server-ip" required placeholder="play.example.com">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="mc-port">Port *</label>
+                            <input type="number" id="mc-port" required placeholder="25565" min="1" max="65535">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="mc-rcon-ip">RCON IP *</label>
+                        <input type="text" id="mc-rcon-ip" required placeholder="127.0.0.1" pattern="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="mc-rcon-port">RCON Port *</label>
+                            <input type="number" id="mc-rcon-port" required placeholder="25575" min="1" max="999999">
+                        </div>
+                        <div class="form-group" style="flex: 2;">
+                            <label for="mc-rcon-secret">RCON Secret *</label>
+                            <input type="password" id="mc-rcon-secret" required placeholder="Enter RCON password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="mc-password">Server Password *</label>
+                        <div class="password-input-container">
+                            <input type="password" id="mc-password" required placeholder="Enter server access password">
+                            <button type="button" class="password-toggle" id="toggle-mc-password">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancel-minecraft-setup">Cancel</button>
+                    <button class="btn btn-primary" id="save-minecraft-server">Save Server</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minecraft Server Auth Modal -->
+    <div id="minecraft-auth-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Server Authentication</h3>
+                <button class="modal-close" id="close-minecraft-auth">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Enter the server password to access the dashboard:</p>
+                <div class="form-group">
+                    <label for="auth-password">Password</label>
+                    <div class="password-input-container">
+                        <input type="password" id="auth-password" placeholder="Enter server password">
+                        <button type="button" class="password-toggle" id="toggle-auth-password">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancel-minecraft-auth">Cancel</button>
+                    <button class="btn btn-primary" id="authenticate-minecraft">Access Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minecraft Dashboard -->
+    <div id="minecraft-dashboard" class="minecraft-dashboard" style="display: none;">
+        <div class="minecraft-sidebar">
+            <div class="minecraft-sidebar-header">
+                <button class="btn btn-secondary" id="back-to-main-dashboard">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                    </svg>
+                    Back to Dashboard
+                </button>
+                <h3 id="minecraft-server-title">Server Name</h3>
+            </div>
+            <ul class="minecraft-nav-menu">
+                <li><a href="#" data-section="console" class="minecraft-nav-link active">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h3l1 1h8l1-1h3c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 13H6V7h12v9z"/>
+                    </svg>
+                    Console
+                </a></li>
+                <li><a href="#" data-section="ranks" class="minecraft-nav-link">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    Ranks
+                </a></li>
+                <li><a href="#" data-section="coins" class="minecraft-nav-link">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                    </svg>
+                    Coins
+                </a></li>
+                <li><a href="#" data-section="crates" class="minecraft-nav-link">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    Crates
+                </a></li>
+                <li><a href="#" data-section="custom" class="minecraft-nav-link">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Custom
+                </a></li>
+                <li><a href="#" data-section="payment" class="minecraft-nav-link">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 2v2H4V6h16zm0 6H4v6h16v-6z"/>
+                    </svg>
+                    Payment Info
+                </a></li>
+            </ul>
+        </div>
+        
+        <div class="minecraft-main-content">
+            <!-- Console Section -->
+            <section id="minecraft-console" class="minecraft-content-section active">
+                <div class="minecraft-section-header">
+                    <h2 id="console-server-name">Server Console</h2>
+                    <div class="server-info">
+                        <span>Players Online: <strong id="players-online">0</strong></span>
+                        <div class="server-ip-container">
+                            <span>Server IP: <strong id="display-server-ip">play.example.com:25565</strong></span>
+                            <button class="btn btn-small btn-secondary" id="copy-server-ip">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="console-container">
+                    <div class="console-output" id="console-output">
+                        <div class="console-line">[INFO] Server started successfully</div>
+                        <div class="console-line">[INFO] Listening on port 25565</div>
+                        <div class="console-line">[INFO] Ready for connections</div>
+                    </div>
+                    <div class="console-input-container">
+                        <input type="text" id="console-command" placeholder="Enter server command..." class="console-input">
+                        <button class="btn btn-primary" id="send-command">Send</button>
+                    </div>
+                </div>
+                
+                <div class="announcements-section">
+                    <h3>Announcements</h3>
+                    <div class="announcement-input-container">
+                        <input type="text" id="announcement-text" placeholder="Enter announcement message..." class="announcement-input">
+                        <div class="announcement-actions">
+                            <button class="btn btn-primary" id="send-announcement">Send</button>
+                            <button class="btn btn-secondary" id="edit-announcement">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Other sections will be added here -->
+            <section id="minecraft-ranks" class="minecraft-content-section">
+                <h2>Ranks Management</h2>
+                <p>Rank management features coming soon...</p>
+            </section>
+            
+            <section id="minecraft-coins" class="minecraft-content-section">
+                <h2>Coins System</h2>
+                <p>Coins management features coming soon...</p>
+            </section>
+            
+            <section id="minecraft-crates" class="minecraft-content-section">
+                <h2>Crates Management</h2>
+                <p>Crates management features coming soon...</p>
+            </section>
+            
+            <section id="minecraft-custom" class="minecraft-content-section">
+                <h2>Custom Features</h2>
+                <p>Custom features coming soon...</p>
+            </section>
+            
+            <section id="minecraft-payment" class="minecraft-content-section">
+                <h2>Payment Information</h2>
+                <p>Payment management features coming soon...</p>
+            </section>
         </div>
     </div>
 

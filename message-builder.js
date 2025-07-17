@@ -5,6 +5,8 @@ let currentMessageId = null;
 let currentMessageType = null;
 let currentEmbedIndex = 0;
 let lastValidJson = null;
+let minecraftServers = [];
+let currentMinecraftServer = null;
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', function() {
@@ -12,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     populateServerSwitcher();
     updateDashboardUserDisplay();
+    setupMinecraftSection();
 });
 
 async function initializeApp() {
@@ -1001,6 +1004,356 @@ function generateMessageId() {
         result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return result;
+}
+
+// Minecraft Section Setup
+function setupMinecraftSection() {
+    const addServerBtn = document.getElementById('add-minecraft-server');
+    const setupModal = document.getElementById('minecraft-setup-modal');
+    const closeSetupBtn = document.getElementById('close-minecraft-setup');
+    const cancelSetupBtn = document.getElementById('cancel-minecraft-setup');
+    const saveServerBtn = document.getElementById('save-minecraft-server');
+    const passwordToggle = document.getElementById('toggle-mc-password');
+    const authModal = document.getElementById('minecraft-auth-modal');
+    const closeAuthBtn = document.getElementById('close-minecraft-auth');
+    const cancelAuthBtn = document.getElementById('cancel-minecraft-auth');
+    const authenticateBtn = document.getElementById('authenticate-minecraft');
+    const authPasswordToggle = document.getElementById('toggle-auth-password');
+    const backToDashboardBtn = document.getElementById('back-to-main-dashboard');
+
+    // Load existing servers
+    loadMinecraftServers();
+
+    // Add server button
+    addServerBtn?.addEventListener('click', () => {
+        setupModal.style.display = 'flex';
+    });
+
+    // Close setup modal
+    [closeSetupBtn, cancelSetupBtn].forEach(btn => {
+        btn?.addEventListener('click', () => {
+            setupModal.style.display = 'none';
+            document.getElementById('minecraft-server-form').reset();
+        });
+    });
+
+    // Password toggle for setup
+    passwordToggle?.addEventListener('click', () => {
+        const passwordInput = document.getElementById('mc-password');
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        
+        passwordToggle.innerHTML = isPassword ? 
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>' :
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>';
+    });
+
+    // Save server
+    saveServerBtn?.addEventListener('click', () => {
+        saveMinecraftServer();
+    });
+
+    // Close auth modal
+    [closeAuthBtn, cancelAuthBtn].forEach(btn => {
+        btn?.addEventListener('click', () => {
+            authModal.style.display = 'none';
+            document.getElementById('auth-password').value = '';
+        });
+    });
+
+    // Password toggle for auth
+    authPasswordToggle?.addEventListener('click', () => {
+        const passwordInput = document.getElementById('auth-password');
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        
+        authPasswordToggle.innerHTML = isPassword ? 
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>' :
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>';
+    });
+
+    // Authenticate server access
+    authenticateBtn?.addEventListener('click', () => {
+        authenticateMinecraftServer();
+    });
+
+    // Back to main dashboard
+    backToDashboardBtn?.addEventListener('click', () => {
+        document.getElementById('minecraft-dashboard').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        currentMinecraftServer = null;
+    });
+
+    // Setup minecraft navigation
+    setupMinecraftNavigation();
+    setupMinecraftConsole();
+}
+
+function loadMinecraftServers() {
+    // Load from localStorage for now (in real app, load from database)
+    const stored = localStorage.getItem('minecraftServers');
+    if (stored) {
+        minecraftServers = JSON.parse(stored);
+        updateMinecraftDisplay();
+    }
+}
+
+function saveMinecraftServer() {
+    const form = document.getElementById('minecraft-server-form');
+    const formData = new FormData(form);
+    
+    const serverData = {
+        id: generateId(),
+        name: document.getElementById('mc-server-name').value,
+        description: document.getElementById('mc-description').value,
+        ip: document.getElementById('mc-server-ip').value,
+        port: document.getElementById('mc-port').value,
+        rconIp: document.getElementById('mc-rcon-ip').value,
+        rconPort: document.getElementById('mc-rcon-port').value,
+        rconSecret: document.getElementById('mc-rcon-secret').value,
+        password: document.getElementById('mc-password').value,
+        createdAt: new Date().toISOString()
+    };
+
+    // Validate IP format
+    const ipPattern = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+    if (!ipPattern.test(serverData.rconIp)) {
+        showNotification('Invalid RCON IP format', 'error');
+        return;
+    }
+
+    minecraftServers.push(serverData);
+    localStorage.setItem('minecraftServers', JSON.stringify(minecraftServers));
+    
+    document.getElementById('minecraft-setup-modal').style.display = 'none';
+    form.reset();
+    updateMinecraftDisplay();
+    showNotification('Minecraft server added successfully!', 'success');
+}
+
+function updateMinecraftDisplay() {
+    const noSetup = document.getElementById('no-minecraft-setup');
+    const serversContainer = document.getElementById('minecraft-servers');
+    
+    if (minecraftServers.length === 0) {
+        noSetup.style.display = 'block';
+        serversContainer.style.display = 'none';
+    } else {
+        noSetup.style.display = 'none';
+        serversContainer.style.display = 'grid';
+        serversContainer.innerHTML = minecraftServers.map(server => createMinecraftServerCard(server)).join('');
+        
+        // Add event listeners to server cards
+        serversContainer.querySelectorAll('.minecraft-server-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (!e.target.closest('.server-menu')) {
+                    const serverId = this.getAttribute('data-server-id');
+                    showMinecraftAuth(serverId);
+                }
+            });
+        });
+        
+        // Add menu event listeners
+        serversContainer.querySelectorAll('.server-menu-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const dropdown = this.nextElementSibling;
+                closeAllDropdowns();
+                dropdown.classList.toggle('show');
+            });
+        });
+        
+        serversContainer.querySelectorAll('.server-menu-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const action = this.getAttribute('data-action');
+                const serverId = this.closest('.minecraft-server-card').getAttribute('data-server-id');
+                handleMinecraftServerAction(action, serverId);
+                closeAllDropdowns();
+            });
+        });
+    }
+}
+
+function createMinecraftServerCard(server) {
+    return `
+        <div class="minecraft-server-card" data-server-id="${server.id}">
+            <div class="server-card-header">
+                <div class="server-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
+                <div class="server-info">
+                    <h3>${server.name}</h3>
+                    <p>${server.description}</p>
+                    <span class="server-ip">${server.ip}:${server.port}</span>
+                </div>
+                <div class="server-menu">
+                    <button class="server-menu-btn">⋮</button>
+                    <div class="server-menu-dropdown">
+                        <button class="server-menu-item" data-action="update">Update</button>
+                        <button class="server-menu-item" data-action="delete">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function showMinecraftAuth(serverId) {
+    currentMinecraftServer = minecraftServers.find(s => s.id === serverId);
+    if (currentMinecraftServer) {
+        // Check if user has saved login for this IP
+        const userIP = getUserIP(); // You'd implement this to get user's IP
+        const savedLogin = localStorage.getItem(`minecraft_auth_${serverId}_${userIP}`);
+        
+        if (savedLogin) {
+            // Auto login
+            openMinecraftDashboard();
+        } else {
+            // Show auth modal
+            document.getElementById('minecraft-auth-modal').style.display = 'flex';
+        }
+    }
+}
+
+function authenticateMinecraftServer() {
+    const password = document.getElementById('auth-password').value;
+    
+    if (currentMinecraftServer && password === currentMinecraftServer.password) {
+        // Save login for future use
+        const userIP = getUserIP();
+        localStorage.setItem(`minecraft_auth_${currentMinecraftServer.id}_${userIP}`, 'true');
+        
+        document.getElementById('minecraft-auth-modal').style.display = 'none';
+        openMinecraftDashboard();
+        showNotification('Authentication successful!', 'success');
+    } else {
+        showNotification('Invalid password', 'error');
+    }
+}
+
+function openMinecraftDashboard() {
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('minecraft-dashboard').style.display = 'flex';
+    
+    // Update dashboard with server info
+    document.getElementById('minecraft-server-title').textContent = currentMinecraftServer.name;
+    document.getElementById('console-server-name').textContent = `${currentMinecraftServer.name} Console`;
+    document.getElementById('display-server-ip').textContent = `${currentMinecraftServer.ip}:${currentMinecraftServer.port}`;
+}
+
+function handleMinecraftServerAction(action, serverId) {
+    const server = minecraftServers.find(s => s.id === serverId);
+    if (!server) return;
+    
+    switch (action) {
+        case 'update':
+            // Open update modal (similar to setup modal but pre-filled)
+            showNotification('Update functionality coming soon!', 'info');
+            break;
+        case 'delete':
+            if (confirm(`Are you sure you want to delete "${server.name}"?`)) {
+                minecraftServers = minecraftServers.filter(s => s.id !== serverId);
+                localStorage.setItem('minecraftServers', JSON.stringify(minecraftServers));
+                updateMinecraftDisplay();
+                showNotification('Server deleted successfully!', 'success');
+            }
+            break;
+    }
+}
+
+function setupMinecraftNavigation() {
+    const navLinks = document.querySelectorAll('.minecraft-nav-link');
+    const sections = document.querySelectorAll('.minecraft-content-section');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            sections.forEach(section => section.classList.remove('active'));
+            
+            this.classList.add('active');
+            
+            const targetSection = this.getAttribute('data-section');
+            document.getElementById(`minecraft-${targetSection}`).classList.add('active');
+        });
+    });
+}
+
+function setupMinecraftConsole() {
+    const commandInput = document.getElementById('console-command');
+    const sendCommandBtn = document.getElementById('send-command');
+    const consoleOutput = document.getElementById('console-output');
+    const announcementInput = document.getElementById('announcement-text');
+    const sendAnnouncementBtn = document.getElementById('send-announcement');
+    const editAnnouncementBtn = document.getElementById('edit-announcement');
+    const copyServerIpBtn = document.getElementById('copy-server-ip');
+
+    // Send command
+    function sendCommand() {
+        const command = commandInput.value.trim();
+        if (command) {
+            addConsoleMessage(`> ${command}`, 'command');
+            // Simulate command response
+            setTimeout(() => {
+                addConsoleMessage(`[INFO] Command executed: ${command}`, 'info');
+            }, 100);
+            commandInput.value = '';
+        }
+    }
+
+    sendCommandBtn?.addEventListener('click', sendCommand);
+    commandInput?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendCommand();
+        }
+    });
+
+    // Send announcement
+    function sendAnnouncement() {
+        const message = announcementInput.value.trim();
+        if (message) {
+            addConsoleMessage(`[ANNOUNCEMENT] ${message}`, 'announcement');
+            announcementInput.value = '';
+            showNotification('Announcement sent!', 'success');
+        }
+    }
+
+    sendAnnouncementBtn?.addEventListener('click', sendAnnouncement);
+    editAnnouncementBtn?.addEventListener('click', () => {
+        // Edit functionality
+        showNotification('Edit functionality coming soon!', 'info');
+    });
+
+    // Copy server IP
+    copyServerIpBtn?.addEventListener('click', () => {
+        const serverIp = document.getElementById('display-server-ip').textContent;
+        navigator.clipboard.writeText(serverIp).then(() => {
+            showNotification('Server IP copied to clipboard!', 'success');
+        });
+    });
+}
+
+function addConsoleMessage(message, type = 'info') {
+    const consoleOutput = document.getElementById('console-output');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `console-line ${type}`;
+    messageDiv.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+    consoleOutput.appendChild(messageDiv);
+    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+}
+
+function getUserIP() {
+    // In a real application, you'd get this from the server
+    return '127.0.0.1';
+}
+
+// Utility functions
+function generateId() {
+    return Math.random().toString(36).substr(2, 9);
 }
 
 // Form auto-updates

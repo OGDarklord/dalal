@@ -357,6 +357,409 @@ body {
     color: #ffffff;
 }
 
+/* Minecraft Section */
+.minecraft-section {
+    margin-top: 3rem;
+}
+
+.minecraft-section h2 {
+    color: #ffffff;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.no-setup-message {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    border: 1px solid #333;
+}
+
+.no-setup-icon {
+    color: #3b82f6;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.no-setup-message h3 {
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+.no-setup-message p {
+    color: #888;
+    margin-bottom: 2rem;
+}
+
+.minecraft-servers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.minecraft-server-card {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.minecraft-server-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.1);
+    border-color: #3b82f6;
+}
+
+.server-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.server-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.server-icon svg {
+    color: white;
+}
+
+.server-info {
+    flex: 1;
+}
+
+.server-info h3 {
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.server-info p {
+    color: #888;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.server-ip {
+    color: #3b82f6;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+.server-menu {
+    position: relative;
+}
+
+.server-menu-btn {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.server-menu-btn:hover {
+    background-color: #2a2a2a;
+    color: #3b82f6;
+}
+
+.server-menu-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    min-width: 120px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    display: none;
+}
+
+.server-menu-dropdown.show {
+    display: block;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.server-menu-item {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: none;
+    border: none;
+    color: #e5e5e5;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.server-menu-item:hover {
+    background-color: #2a2a2a;
+    color: #3b82f6;
+}
+
+/* Password Input Container */
+.password-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-container input {
+    flex: 1;
+    padding-right: 3rem;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: color 0.3s ease;
+}
+
+.password-toggle:hover {
+    color: #3b82f6;
+}
+
+/* Form Row */
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Minecraft Dashboard */
+.minecraft-dashboard {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #0f0f0f;
+    z-index: 1000;
+    display: flex;
+}
+
+.minecraft-sidebar {
+    width: 250px;
+    background-color: #1a1a1a;
+    padding: 1.5rem;
+    border-right: 1px solid #333;
+    overflow-y: auto;
+}
+
+.minecraft-sidebar-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
+}
+
+.minecraft-sidebar-header h3 {
+    color: #ffffff;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+}
+
+.minecraft-nav-menu {
+    list-style: none;
+}
+
+.minecraft-nav-menu li {
+    margin-bottom: 0.5rem;
+}
+
+.minecraft-nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: #e5e5e5;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.minecraft-nav-link:hover {
+    background-color: #2a2a2a;
+    color: #3b82f6;
+    transform: translateX(5px);
+}
+
+.minecraft-nav-link.active {
+    background-color: #3b82f6;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.minecraft-main-content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.minecraft-content-section {
+    display: none;
+}
+
+.minecraft-content-section.active {
+    display: block;
+}
+
+.minecraft-section-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #333;
+}
+
+.minecraft-section-header h2 {
+    color: #ffffff;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.server-info {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.server-ip-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.server-info span {
+    color: #888;
+}
+
+.server-info strong {
+    color: #ffffff;
+}
+
+/* Console Styles */
+.console-container {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.console-output {
+    height: 400px;
+    padding: 1rem;
+    background-color: #0f0f0f;
+    overflow-y: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.console-line {
+    color: #e5e5e5;
+    margin-bottom: 0.25rem;
+    word-wrap: break-word;
+}
+
+.console-line.command {
+    color: #3b82f6;
+}
+
+.console-line.info {
+    color: #10b981;
+}
+
+.console-line.announcement {
+    color: #f59e0b;
+    font-weight: 600;
+}
+
+.console-line.error {
+    color: #ef4444;
+}
+
+.console-input-container {
+    display: flex;
+    padding: 1rem;
+    gap: 1rem;
+    background-color: #1a1a1a;
+    border-top: 1px solid #333;
+}
+
+.console-input {
+    flex: 1;
+    padding: 0.75rem;
+    background-color: #0f0f0f;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+}
+
+.console-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Announcements Section */
+.announcements-section {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.announcements-section h3 {
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.announcement-input-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.announcement-input {
+    flex: 1;
+    padding: 0.75rem;
+    background-color: #0f0f0f;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #ffffff;
+}
+
+.announcement-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.announcement-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
 /* Message Builder Styles */
 .message-list-container {
     width: 100%;
@@ -393,7 +796,9 @@ body {
 
 .message-card-item.public {
     border-color: #3b82f6;
-    background-color: rgba(59, 130, 246, 0.05);
+    background-color: rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
 }
 
 .message-card-item:hover {
@@ -435,16 +840,15 @@ body {
     align-items: center;
 }
 
-.embed-count {
+.message-type {
     color: #3b82f6;
+    font-weight: 500;
+    text-transform: capitalize;
 }
 
-.type-badge {
-    padding: 0.2rem 0.5rem;
-    border-radius: 12px;
-    font-size: 0.7rem;
-    font-weight: 500;
-    color: white;
+.embed-count {
+    color: #888;
+    font-size: 0.9rem;
 }
 
 .message-card-meta {
